@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>about cloudfortytwo margin calculator</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Vue js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Margin Calculator</a>
+      
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+	  
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Free Gross Margin Tool
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+		  <!--
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+		  -->
+        </ul>
+      </div> 
+	  
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="mt-5">Gross Margin Calculator</h1>
+        <p class="lead">Enter cost and desired margin to see the result.</p>
+      </div>
+	  <div class="col-lg-6">
+		<div id="app">
+			<form v-on:submit.prevent="onSubmit">
+			  <div class="form-group">
+				<input type="number" min="0" step="0.01" class="form-control" id="cost" placeholder="Enter Cost" v-model="cost" required>
+			  </div>
+			  <div class="form-group">
+				<input type="number" min="0" max="99.99" class="form-control" id="margin" placeholder="Enter desired margin to apply" v-model="margin" required>
+			  </div>
+			  <button type="submit" v-on:click="getResult(cost, margin)" data-toggle="modal" data-target="#resultModal" class="btn btn-primary">Calculate</button>
+			  <button type="button" v-on:click="clearResult()" class="btn btn-danger">Clear</button>
+			</form>
+			
+		<div>
+			<div>
+				<div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+						  <div class="modal-header">
+							<h5 class="modal-title" id="resultModalLabel">Calculation Result</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body">
+							<h3><em>{{ this.result }}</em></h3>
+							<p>
+							The final price to sell at would be {{ this.result }} in your preferred currency.  This would be applying a gross margin of {{ this.margin }}% to the value of {{ this.cost }}.
+							</p>
+							<p>
+							In numerical terms, that would be {{ this.result - this.cost }}.
+							</p>
+						  </div>
+						  <div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						  </div>
+						</div>
+					  </div>
+					</div> 
+			</div>
+		</div>
+	  </div>
+		</div>
+	<div class="col-lg-6">
+		<h4>Gross Margin</h4>
+		<p>
+			You can use this tool to find the price your product would be with gross margin applied as a percentage.
+		</p>
+		<p>
+			Enter the cost in the top box, the percentage margin you wish to apply and press calculate.
+		</p>
+	</div>
+	</div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.slim.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        cost: null,
+		margin: null,
+		result: null,
+      },
+	  methods: {
+		getResult: function(cost, margin) {
+			if (cost == null || cost < 0) {
+				return
+			};
+			if (margin==null || margin < 0 || margin > 99.99 ) {
+				return
+			};
+			console.log(cost);
+			console.log(margin);
+			this.result = ((cost*100)/(100-margin)).toFixed(2);
+		},
+		clearResult: function() {
+			this.cost = null;
+			this.margin = null;
+			this.result = null;
+		},
+	  }
+    })
+  </script>
+</body>
+
+</html>
